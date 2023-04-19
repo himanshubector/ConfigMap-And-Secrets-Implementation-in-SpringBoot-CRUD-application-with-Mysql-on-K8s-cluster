@@ -23,6 +23,7 @@ spring:
 
 
 
+
  # Error Details:
 
  # Caused by: com.mysql.cj.exceptions.UnableToConnectException: Public Key Retrieval is not allowed

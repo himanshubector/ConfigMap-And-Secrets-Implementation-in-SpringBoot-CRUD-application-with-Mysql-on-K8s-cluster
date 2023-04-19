@@ -189,7 +189,7 @@ http://10.96.2.238:32527/orders
 OR
 
 
-Execute the command  minikube service <service_name> --url ->
+Execute the command  'minikube service <service_name> --url' ->
 
 This will return something like http://127.0.0.1:64198
 

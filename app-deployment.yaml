@@ -5,7 +5,7 @@ apiVersion: apps/v1
 kind: Deployment
 
 metadata:
-  name: springboot-crud-deployment
+  name: springboot-crud-k8s-secret-deployment
 
 spec:
   selector:
@@ -21,23 +21,35 @@ spec:
 
     spec:
       containers:
-        - name: springboot-crud-k8s-container
-          image: springboot-crud-k8s-image:1.0
+        - name: springboot-crud-k8s-secret-container
+          image: springboot-crud-k8s-secret:1.0
           ports:
             - containerPort: 8080
 
           env:                      # Setting Environment Variables
             - name: DB_HOST         # Setting Database host address from configMap
-              value: mysql
+              valueFrom:
+                configMapKeyRef:
+                  name: mysqldb-config
+                  key: host
 
             - name: DB_NAME             # Setting Database name from configMap
-              value: javatechie
+              valueFrom:
+                configMapKeyRef:
+                  name: mysqldb-config
+                  key: dbName
 
             - name: DB_USERNAME        # Setting Database username from Secret
-              value: root
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: username
 
             - name: DB_PASSWORD       # Setting Database password from Secret
-              value: root
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: password
 
 ---
 
@@ -47,7 +59,7 @@ apiVersion: v1                # Kubernetes API version
 kind: Service                 # Kubernetes resource kind we are creating
 
 metadata:                     # Metadata of the resource kind we are creating
-  name: springboot-crud-svc
+  name: springboot-crud-k8s-secret-svc
 
 spec:
   selector:
